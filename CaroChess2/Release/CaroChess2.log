@@ -1,0 +1,36 @@
+﻿Build started 6/3/2018 5:56:59 PM.
+     1>Project "E:\LapTrinhHeThong\Project\CaroChess2\CaroChess2\CaroChess2.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source.cpp
+         Source.cpp
+     1>Source.cpp(85): warning C4244: '=' : conversion from 'LONG' to 'float', possible loss of data
+     1>Source.cpp(87): warning C4244: '=' : conversion from 'LONG' to 'float', possible loss of data
+     1>Source.cpp(96): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>Source.cpp(101): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>Source.cpp(116): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>Source.cpp(122): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>Source.cpp(133): warning C4258: 'i' : definition from the for loop is ignored; the definition from the enclosing scope is used
+                 Source.cpp(104) : definition of 'i' ignored
+                 Source.cpp(12) : definition of 'i' used
+     1>Source.cpp(135): warning C4258: 'j' : definition from the for loop is ignored; the definition from the enclosing scope is used
+                 Source.cpp(99) : definition of 'j' ignored
+                 Source.cpp(12) : definition of 'j' used
+     1>Source.cpp(137): warning C4258: 'i' : definition from the for loop is ignored; the definition from the enclosing scope is used
+                 Source.cpp(104) : definition of 'i' ignored
+                 Source.cpp(12) : definition of 'i' used
+     1>Source.cpp(137): warning C4258: 'j' : definition from the for loop is ignored; the definition from the enclosing scope is used
+                 Source.cpp(99) : definition of 'j' ignored
+                 Source.cpp(12) : definition of 'j' used
+     1>Source.cpp(78): warning C4101: 'pt' : unreferenced local variable
+     1>Source.cpp(181): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>Source.cpp(182): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\LapTrinhHeThong\Project\CaroChess2\Release\CaroChess2.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\LapTrinhHeThong\Project\CaroChess2\Release\CaroChess2.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\LapTrinhHeThong\Project\CaroChess2\Release\CaroChess2.lib" /MACHINE:X86 /SAFESEH Release\Source.obj
+         Generating code
+         Finished generating code
+         CaroChess2.vcxproj -> E:\LapTrinhHeThong\Project\CaroChess2\Release\CaroChess2.exe
+     1>Done Building Project "E:\LapTrinhHeThong\Project\CaroChess2\CaroChess2\CaroChess2.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.86
