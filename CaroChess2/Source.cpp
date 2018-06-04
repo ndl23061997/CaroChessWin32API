@@ -1,5 +1,6 @@
 #include <Windows.h>
-
+#include <stdexcept>
+using namespace std;
 // Bien toan cuc
 static HPEN penRED, penBLUE, penDEFAULT;
 static float ScreenWidth, ScreenHeight, CellWidth, CellHeight;
@@ -9,13 +10,11 @@ static int map[25][25]; // Luu thong tin cua ban co, map[m][n] : m cot va n hang
 static int status = 1; // trang thai X,O
 static int Winner;
 static int count, person;
-static int i, j, k;
-
 // Dinh nghia ham
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 int DrawLine(HDC hdc, int xStart, int yStart, int xEnd, int yEnd);
 int DrawX(HDC, int x, int y);
-int Win();
+int Win(int x, int y, int person);
 
 // Ham WinMain
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
@@ -71,7 +70,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	
+
 	//
 	HDC hdc;
 	PAINTSTRUCT ps;
@@ -95,7 +94,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		for (int i = 0; i < M; i++)
 		{
 			DrawLine(hdc, i*CellWidth, 0, i*CellWidth, ScreenHeight); // Ve duong ke doc
-			
+
 		}
 		for (int j = 0; j < N; j++)
 		{
@@ -129,18 +128,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// Dua ra thong bao neu co nguoi choi chien thang
 		if (Winner != 0)
 		{
-			MessageBox(hwnd, (Winner == 1) ? (LPCSTR)"O chien thang" : (LPCSTR)"X chien thang", (LPCSTR)"Tro choi ket thuc", MB_OK);
+			MessageBox(hwnd, (Winner == 1) ? (LPCSTR)"O WIN!" : (LPCSTR)"X WIN!", (LPCSTR)"Tro choi ket thuc", MB_OK);
 			// Lam sach ban co
-			for (i = 0; i < M; i++)
+			for (int i = 0; i < M; i++)
 			{
-				for (j = 0; j < N; j++)
+				for (int j = 0; j < N; j++)
 				{
 					map[i][j] = 0;
 				}
 			}
 			Winner = 0;
 			InvalidateRect(hwnd, NULL, true);
-		} 
+		}
 		EndPaint(hwnd, &ps);
 		UpdateWindow(hwnd);
 		return 0;
@@ -160,9 +159,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 			map[i][j] = status;
 			status = status*-1;
 		}
-		
-		Winner = Win();
-		
+
+		Winner = Win(i, j, status*-1);
+
 		InvalidateRect(hwnd, NULL, true);
 		return 0;
 	}
@@ -185,115 +184,91 @@ int DrawX(HDC hdc, int x, int y)
 }
 
 // ham kiem tra chien thang tro choi
-
-int Win()
+int Win(int x, int y, int person)
 {
-	
-	// chieu ngang
+	int count;
+	int i, j;
+	// ngang
 	count = 0;
-	for (j = 0; j < N; j++)
-	{
-		for (i = 0; i < M-1; i++)
+	i = x;
+	j = y;
+	try{
+		while (map[i][j] == person && i >= 0)
 		{
-			person = map[i][j];
-			if (person != 0)
-			{
-				if (person == map[i+1][j]) count++;
-				else count = 0;
-			}
-			else count = 0;
-			if (count == 4) return person;
+			i--;
+			count++;
+		}
+		i = x + 1;
+		while (map[i][j] == person && i < M)
+		{
+			i++;
+			count++;
 		}
 	}
-	// Chieu doc
+	catch (exception& e) {}
+	if (count >= 5) return person;
+	// Doc
 	count = 0;
-	for (i = 0; i < M; i++)
-	{
-		for (j = 0; j < N-1; j++)
+	i = x;
+	j = y;
+	try{
+		while (map[i][j] == person && j >= 0)
 		{
-			person = map[i][j];
-			if (person != 0)
-			{
-				if (person == map[i][j+1]) count++;
-				else count = 0;
-			}
-			else count = 0;
-			if (count == 4) return person;
+			j--;
+			count++;
+		}
+		j = y + 1;
+		while (map[i][j] == person && j < N)
+		{
+			j++;
+			count++;
 		}
 	}
-	// Xien tu trai -> phai
+	catch (exception& e) {}
+	if (count >= 5) return person;
+	// Xien tren -> duoi
 	count = 0;
-	
-	for (j = 0; j < N; j++)
-	{
-		k = j;
-		i = 0;
-		while (i < M - 1 && j < N - 1)
+	i = x;
+	j = y;
+	try{
+		while (map[i][j] == person && j >= 0 && i >= 0)
 		{
-			person = map[i][j];
-			if (person != 0)
-			{
-				if (person == map[i+1][j + 1]) count++;
-				else count = 0;
-			}
-			else count = 0;
-			if (count == 4) return person;
+			i--;
+			j--;
+			count++;
+		}
+		j = y + 1;
+		i = x + 1;
+		while (map[i][j] == person && j < N && i < M)
+		{
 			i++;
 			j++;
+			count++;
 		}
-		// Doi xung
-		i = k;
-		j = 0;
-		while (i < M - 1 && j < N - 1)
+	}
+	catch (exception& e) {}
+	if (count >= 5)	return person;
+	// Xien duoi len
+	count = 0;
+	i = x;
+	j = y;
+	try{
+		while (map[i][j] == person && j >= 0 && i < M)
 		{
-			person = map[i][j];
-			if (person != 0)
-			{
-				if (person == map[i + 1][j + 1]) count++;
-				else count = 0;
-			}
-			else count = 0;
-			if (count == 4) return person;
 			i++;
+			j--;
+			count++;
+		}
+		j = y + 1;
+		i = x - 1;
+		while (map[i][j] == person && j < N && i >= 0)
+		{
+			i--;
 			j++;
+			count++;
 		}
-		j = k;
 	}
-	// Xien tu phai -> trai
-	for (j = 0; j < N; j++)
-	{
-		k = j;
-		i = 0;
-		while (i < M - 1 && j > 0)
-		{
-			person = map[i][j];
-			if (person != 0)
-			{
-				if (person == map[i + 1][j -1]) count++;
-				else count = 0;
-			}
-			else count = 0;
-			if (count == 4) return person;
-			i++;
-			j--;
-		}
-		// Doi xung
-		i = N - k;
-		j = N;
-		while (i < M - 1 && j > 0)
-		{
-			person = map[i][j];
-			if (person != 0)
-			{
-				if (person == map[i + 1][j - 1]) count++;
-				else count = 0;
-			}
-			else count = 0;
-			if (count == 4) return person;
-			i++;
-			j--;
-		}
-		j = k;
-	}
+	catch (exception& e) {}
+	if (count >= 5)	return person;
 	return 0;
 }
